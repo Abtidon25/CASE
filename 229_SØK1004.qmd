@@ -1,0 +1,54 @@
+---
+title: "CASE ONE"
+format: PDF
+editor: visual
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+library(PxWebApiData)
+library(tidyverse)
+```
+
+You can add options to executable code like this
+
+```{r}
+variabler <- ApiData("http://data.ssb.no/api/v0/no/table/09842", returnMetaFrames = TRUE)
+names(variabler)
+CCverdier <- ApiData("https://data.ssb.no/api/v0/no/table/09842/", returnMetaData = TRUE)
+verdier
+tabell <- ApiData("https://data.ssb.no/api/v0/no/table/09842/",
+                  Tid = paste(1970:2019),
+                  ContentsCode = "BNP")
+head(tabell[[1]])
+head(tabell[[2]])
+bnp <- tabell[[1]]
+str(bnp)
+bnp <- bnp %>%
+  mutate(år=parse_number(år)) %>% 
+  rename(bnp=value)
+str(bnp)
+
+library(dplyr)
+f=filter(bnp, år >='1990')
+
+bnp %>%
+  ggplot(aes(x=år, y=bnp)) +
+  geom_line(color="dark blue") +
+  scale_y_continuous(labels = scales::comma) +
+  labs(title="GDP \n (GDP per Capita)",
+       x ="Year",
+       y = "GDP per Capita") +
+  theme_bw()
+
+
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
